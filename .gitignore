@@ -5,4 +5,5 @@ data_scaler.pkl
 LA_weather_data_from2000.csv
 mlops.pem
 test.ipynb
-weather_transformer.pkl
+weather_transformer.pth
+
