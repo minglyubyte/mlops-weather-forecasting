@@ -1,0 +1,28 @@
+version: '1'
+
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgresql-db
+    environment:
+      DATABASE_URL: postgresql+psycopg2://leo:Lm%40132465798@postgresql-db:5432/leo
+    volumes:
+      - /Users/leo/MLOPs/mlruns:/app/mlruns
+
+  postgresql-db:
+    build: 
+      context: ./postgresql
+      dockerfile: Dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: leo
+      POSTGRES_USER: leo
+      PG_HOST: postgresql-db
+      PG_PORT: 5432
+      POSTGRES_PASSWORD: Lm@132465798
