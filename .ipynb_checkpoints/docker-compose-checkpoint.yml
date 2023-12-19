@@ -1,4 +1,4 @@
-version: '1'
+version: '2'
 
 services:
   web:
@@ -7,22 +7,29 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    depends_on:
-      - postgresql-db
     environment:
-      DATABASE_URL: postgresql+psycopg2://leo:Lm%40132465798@postgresql-db:5432/leo
-    volumes:
-      - /Users/leo/MLOPs/mlruns:/app/mlruns
+      EC2_TRACKING_SERVER_HOST: "${EC2_TRACKING_SERVER_HOST}"
+      PG_HOST: "${PG_HOST}"
+      PG_PORT: "${PG_PORT}"
+      PG_DATABASE: "${PG_DATABASE}"
+      PG_USER: "${PG_USER}"
+      PG_PASSWORD: "${PG_PASSWORD}"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET}"
+    mem_limit: 500m
+    network_mode: "host"
+    # volumes:
+    #   - /Users/leo/MLOPs/mlruns:/app/mlruns
 
-  postgresql-db:
-    build: 
-      context: ./postgresql
-      dockerfile: Dockerfile
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: leo
-      POSTGRES_USER: leo
-      PG_HOST: postgresql-db
-      PG_PORT: 5432
-      POSTGRES_PASSWORD: Lm@132465798
+  # postgresql-db:
+  #   build: 
+  #     context: ./postgresql
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_DB: *******
+  #     POSTGRES_USER: *****
+  #     PG_HOST: postgresql-db
+  #     PG_PORT: 5432
+  #     POSTGRES_PASSWORD: ********
