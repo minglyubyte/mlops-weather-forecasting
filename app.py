@@ -20,9 +20,9 @@ class PredictionParams(BaseModel):
     class Config:
         protected_namespaces = ()
 
-#TRACKING_SERVER_HOST = "web"  # Use the appropriate host and port
-# print(f"Tracking Server URI: '{TRACKING_SERVER_HOST}'")
-#mlflow.set_tracking_uri("http://web:5000")
+TRACKING_SERVER_HOST = os.environ.get("EC2_TRACKING_SERVER_HOST")
+print(f"Tracking Server URI: '{TRACKING_SERVER_HOST}'")
+mlflow.set_tracking_uri(f"http://{TRACKING_SERVER_HOST}:5000") 
 
 app = FastAPI()
 
@@ -41,7 +41,7 @@ def api_predict(params: PredictionParams):
     if not experiment_id:
         try:
             print(f'Trying to create an experiment with name {experiment_name}')
-            experiment_id = mlflow.create_experiment(experiment_name)
+            experiment_id = mlflow.create_experiment(experiment_name, artifact_location="s3://leomlops")
         except:
             print(f'Experiment {experiment_name} exists')
             experiment_id = mlflow.get_experiment_by_name(experiment_name).experiment_id
@@ -74,7 +74,7 @@ def api_monitor(params: PredictionParams):
     if not experiment_id:
         try:
             print(f'Trying to create an experiment with name {experiment_name}')
-            experiment_id = mlflow.create_experiment(experiment_name)
+            experiment_id = mlflow.create_experiment(experiment_name, artifact_location="s3://leomlops")
         except:
             print(f'Experiment {experiment_name} exists')
             experiment_id = mlflow.get_experiment_by_name(experiment_name).experiment_id

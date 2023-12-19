@@ -34,7 +34,7 @@ def test_predict_endpoint():
     data = response.json()
     print(data)
 
-    db_url = "postgresql+psycopg2://leo:Lm%40132465798@0.0.0.0:5432/leo"
+    db_url = get_config()
     engine = create_engine(db_url)
     connection = engine.connect()
     
@@ -75,7 +75,7 @@ def test_monitor_endpoint():
     data = response.json()
     print(data)
     
-    db_url = "postgresql+psycopg2://leo:Lm%40132465798@0.0.0.0:5432/leo"
+    db_url = get_config()
     engine = create_engine(db_url)
     connection = engine.connect()
     
