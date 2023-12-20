@@ -1,1 +1,0 @@
-psql -h mlops-weather-forecasting.ch134robrffl.us-east-2.rds.amazonaws.com -U lyum -d initial_db -f database_dump.sql
