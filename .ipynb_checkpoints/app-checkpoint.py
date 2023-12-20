@@ -11,6 +11,11 @@ import pickle
 from pydantic import BaseModel
 import pytz
 
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 class PredictionParams(BaseModel):
     experiment_id: str
     experiment_name: str
