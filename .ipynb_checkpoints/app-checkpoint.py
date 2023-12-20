@@ -10,6 +10,13 @@ import pandas as pd
 import pickle
 from pydantic import BaseModel
 import pytz
+import sys
+
+# Define the log file path here
+log_file_path = "output.txt"
+
+# Redirect sys.stdout to the log file
+sys.stdout = open(log_file_path, "w")
 
 class PredictionParams(BaseModel):
     experiment_id: str
