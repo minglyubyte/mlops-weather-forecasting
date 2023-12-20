@@ -5,11 +5,6 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset, random_split
 from .transformer_model import WeatherTransformer
 from data.data_preprocess import scaler_transform, scaler_inverse_transform
-# Define the log file path here
-log_file_path = "output.txt"
-
-# Redirect sys.stdout to the log file
-sys.stdout = open(log_file_path, "w")
 
 class Model():
     def __init__(self, RUN_ID, model_name, version, scaler):
