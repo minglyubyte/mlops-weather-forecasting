@@ -37,7 +37,7 @@ jobs:
             git pull origin main 
             # Ensure .env file is in the same directory as docker-compose.yml
             cd ..
-            mv env.txt ./mlops-weather-forecasting/.env
+            mv test.txt ./mlops-weather-forecasting/.env
             cd mlops-weather-forecasting
             # Then run Docker Compose
             docker-compose down
