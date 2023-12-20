@@ -8,3 +8,4 @@ test.ipynb
 weather_transformer.pth
 initialize.py
 .env
+test_aws.py

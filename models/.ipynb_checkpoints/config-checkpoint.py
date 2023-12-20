@@ -12,7 +12,7 @@ def get_config():
     PG_PASSWORD = os.environ.get('PG_PASSWORD')
 
     # Create the MySQL database connection string
-    db_url = f'postgresql+psycopg2://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:5432/{PG_DATABASE}'
+    db_url = f'postgresql+psycopg2://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DATABASE}'
     #print(db_url)
     
     return db_url

@@ -28,7 +28,7 @@ mlflow.set_tracking_uri(f"http://{TRACKING_SERVER_HOST}:5000")
 app = FastAPI()
 
 @app.post("/predict")
-def api_predict(params: PredictionParams):
+async def api_predict(params: PredictionParams):
     experiment_name = params.experiment_name
     experiment_id = params.experiment_id
     model_name = params.model_name
@@ -62,7 +62,7 @@ def api_predict(params: PredictionParams):
         return {"message": f"Prediction already made for {next_day_date}!", "predictions": prediction, "date": next_day_date}
 
 @app.post("/monitor")
-def api_monitor(params: PredictionParams):
+async def api_monitor(params: PredictionParams):
     experiment_name = params.experiment_name
     experiment_id = params.experiment_id
     model_name = params.model_name
