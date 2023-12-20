@@ -11,6 +11,7 @@ import datetime
 import pickle
 import torch
 import pytz
+import os
 
 def predict(model_name, version, scaler_path, RUN_ID):
     # get daily feed first
