@@ -1,5 +1,6 @@
 mlruns/
 postgresql/
+.ipynb_checkpoints/
 command.txt
 LA_weather_data_from2000.csv
 mlops.pem
@@ -9,3 +10,6 @@ initialize.py
 .env
 test_aws.py
 env.txt
+data/.ipynb_checkpoints/
+models/.ipynb_checkpoints/
+test/.ipynb_checkpoints/
