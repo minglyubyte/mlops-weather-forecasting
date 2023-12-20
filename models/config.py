@@ -14,6 +14,5 @@ def get_config():
     # Create the MySQL database connection string
     db_url = f'postgresql+psycopg2://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DATABASE}'
     #print(db_url)
-    db_url = f'postgresql+psycopg2://lyum:Password85330060@mlops-weather-forecasting.ch134robrffl.us-east-2.rds.amazonaws.com:5432/initial_db'
     
     return db_url
