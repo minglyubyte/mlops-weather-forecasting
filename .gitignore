@@ -6,4 +6,5 @@ LA_weather_data_from2000.csv
 mlops.pem
 test.ipynb
 weather_transformer.pth
-
+initialize.py
+.env

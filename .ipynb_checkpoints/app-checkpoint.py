@@ -9,6 +9,7 @@ import uvicorn
 import pandas as pd
 import pickle
 from pydantic import BaseModel
+import pytz
 
 class PredictionParams(BaseModel):
     experiment_id: str
@@ -34,8 +35,9 @@ def api_predict(params: PredictionParams):
     version = params.version
     scaler_path = params.scaler_path
     
-    today_time = datetime.datetime.now()
-    today_date = today_time.strftime('%Y-%m-%d')
+    pst = pytz.timezone('US/Pacific')
+    today_time = datetime.datetime.now(pst)
+    today_date = today_time.date()
 
     print(f'Running a prediction for {today_date}, experiment name: {experiment_name} with model {model_name} v{version}.')
     if not experiment_id:
@@ -67,8 +69,9 @@ def api_monitor(params: PredictionParams):
     version = params.version
     scaler_path = params.scaler_path
 
-    today_time = datetime.datetime.now()
-    today_date = today_time.strftime('%Y-%m-%d')
+    pst = pytz.timezone('US/Pacific')
+    today_time = datetime.datetime.now(pst)
+    today_date = today_time.date()
 
     print(f'Running a monitoring for {today_date}, experiment name: {experiment_name} with model {model_name} v{version}.')
     if not experiment_id:
