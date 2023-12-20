@@ -13,37 +13,48 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Setup SSH and Transfer Files
+        env:
+          PRIVATE_KEY_BASE64: ${{ secrets.EC2_SSH_PRIVATE_KEY_BASE64 }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+        run: |
+          # Decode the SSH private key
+          echo "$PRIVATE_KEY_BASE64" | base64 -d > private_key.pem
+          chmod 600 private_key.pem
+
+          # Create .env file with secrets
+          echo "EC2_TRACKING_SERVER_HOST=${{ secrets.EC2_TRACKING_SERVER_HOST }}" > .env
+          echo "PG_HOST=${{ secrets.PG_HOST }}" >> .env
+          echo "PG_PORT=${{ secrets.PG_PORT }}" >> .env
+          echo "PG_DATABASE=${{ secrets.PG_DATABASE }}" >> .env
+          echo "PG_USER=${{ secrets.PG_USER }}" >> .env
+          echo "PG_PASSWORD=${{ secrets.PG_PASSWORD }}" >> .env
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+
+          # Transfer .env file to EC2 instance
+          scp -o StrictHostKeyChecking=no -i private_key.pem .env $USER@$HOST
+
       - name: Deploy to EC2
         env:
           PRIVATE_KEY_BASE64: ${{ secrets.EC2_SSH_PRIVATE_KEY_BASE64 }}
           HOST: ${{ secrets.EC2_HOST }}
           USER: ${{ secrets.EC2_USER }}
-          EC2_TRACKING_SERVER_HOST: ${{ secrets.EC2_TRACKING_SERVER_HOST }}
-          PG_HOST: ${{ secrets.PG_HOST }}
-          PG_PORT: ${{ secrets.PG_PORT }}
-          PG_DATABASE: ${{ secrets.PG_DATABASE }}
-          PG_USER: ${{ secrets.PG_USER }}
-          PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          echo "$PRIVATE_KEY_BASE64" | base64 -d > private_key.pem
-          chmod 600 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST << EOF
+          # SSH into the EC2 instance and perform deployment
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST << 'EOF'
             cd mlops-weather-forecasting
             git pull origin main 
-            export EC2_TRACKING_SERVER_HOST=$EC2_TRACKING_SERVER_HOST
-            export PG_HOST=$PG_HOST
-            export PG_PORT=$PG_PORT
-            export PG_DATABASE=$PG_DATABASE
-            export PG_USER=$PG_USER
-            export PG_PASSWORD=$PG_PASSWORD
-            export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-            export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+            # Ensure .env file is in the same directory as docker-compose.yml
+            cd ..
+            mv .env mlops-weather-forecasting/.env
+            cd mlops-weather-forecasting
+            # Then run Docker Compose
             docker-compose down
             docker container prune -f
             docker image prune -f
-            docker-compose build --build-arg EC2_TRACKING_SERVER_HOST=$EC2_TRACKING_SERVER_HOST PG_HOST=$PG_HOST PG_PORT=$PG_PORT PG_DATABASE=$PG_DATABASE PG_USER=$PG_USER PG_PASSWORD=$PG_PASSWORD AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+            docker-compose build
             docker-compose up -d
           EOF
           rm -f private_key.pem
