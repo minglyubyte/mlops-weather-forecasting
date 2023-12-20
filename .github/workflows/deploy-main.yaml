@@ -23,19 +23,6 @@ jobs:
           echo "$PRIVATE_KEY_BASE64" | base64 -d > private_key.pem
           chmod 600 private_key.pem
 
-          # Create .env file with secrets
-          echo "EC2_TRACKING_SERVER_HOST=${{ secrets.EC2_TRACKING_SERVER_HOST }}" > .env
-          echo "PG_HOST=${{ secrets.PG_HOST }}" >> .env
-          echo "PG_PORT=${{ secrets.PG_PORT }}" >> .env
-          echo "PG_DATABASE=${{ secrets.PG_DATABASE }}" >> .env
-          echo "PG_USER=${{ secrets.PG_USER }}" >> .env
-          echo "PG_PASSWORD=${{ secrets.PG_PASSWORD }}" >> .env
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
-
-          # Transfer .env file to EC2 instance
-          scp -o StrictHostKeyChecking=no -i private_key.pem .env $USER@$HOST
-
       - name: Deploy to EC2
         env:
           PRIVATE_KEY_BASE64: ${{ secrets.EC2_SSH_PRIVATE_KEY_BASE64 }}
@@ -43,12 +30,14 @@ jobs:
           USER: ${{ secrets.EC2_USER }}
         run: |
           # SSH into the EC2 instance and perform deployment
+          echo "$PRIVATE_KEY_BASE64" | base64 -d > private_key.pem
+          chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST << 'EOF'
             cd mlops-weather-forecasting
             git pull origin main 
             # Ensure .env file is in the same directory as docker-compose.yml
             cd ..
-            mv .env mlops-weather-forecasting/.env
+            mv .env ./mlops-weather-forecasting/.env
             cd mlops-weather-forecasting
             # Then run Docker Compose
             docker-compose down
