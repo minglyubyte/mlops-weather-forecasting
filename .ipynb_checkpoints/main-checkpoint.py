@@ -14,7 +14,7 @@ import pytz
 
 def predict(model_name, version, scaler_path, RUN_ID):
     # get daily feed first
-    daily_data_feed(os.environ.get("open_weather_api"))
+    daily_data_feed(os.environ.get("openweather_api"))
 
     # load scaler
     with open(scaler_path, 'rb') as file:
