@@ -5,6 +5,11 @@ import pytz
 from sklearn.preprocessing import MinMaxScaler
 from sqlalchemy import create_engine, text
 from .config import get_config
+# Define the log file path here
+log_file_path = "output.txt"
+
+# Redirect sys.stdout to the log file
+sys.stdout = open(log_file_path, "w")
 
 def unix_timestamp_to_datetime(timestamp):
     # Convert Unix time to UTC datetime

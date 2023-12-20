@@ -12,6 +12,12 @@ import pickle
 import torch
 import pytz
 
+# Define the log file path here
+log_file_path = "output.txt"
+
+# Redirect sys.stdout to the log file
+sys.stdout = open(log_file_path, "w")
+
 def predict(model_name, version, scaler_path, RUN_ID):
     # get daily feed first
     daily_data_feed("f6a721a84c31decebf1e30fa38585ae0")

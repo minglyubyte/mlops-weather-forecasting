@@ -7,6 +7,11 @@ from sklearn.preprocessing import MinMaxScaler
 from sqlalchemy import create_engine, text
 from .config import get_config
 from .data_preprocess import unix_timestamp_to_datetime
+# Define the log file path here
+log_file_path = "output.txt"
+
+# Redirect sys.stdout to the log file
+sys.stdout = open(log_file_path, "w")
 
 def daily_data_feed(api,orginal_table_name = 'weather_data_original_mlops', test_table_name = 'weather_data_original_mlops_test'):
     response = requests.get(f"https://api.openweathermap.org/data/3.0/onecall?lat=34.05&lon=-118.24&appid={api}")
