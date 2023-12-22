@@ -3,6 +3,8 @@ import os
 import pandas as pd
 import requests
 import sys
+import datetime
+from pydantic import BaseModel
 
 # Load .env file
 load_dotenv()
