@@ -2,6 +2,8 @@
 This project offers a great initiation into Machine Learning Operations. It's a comprehensive end-to-end machine learning project, providing an immersive experience through a full project cycle. Hosted on an AWS server, this application is an ideal learning platform for enthusiasts keen on SQL, cloud services, machine learning, MLOps (Machine Learning Operations), CI/CD (Continuous Integration and Continuous Deployment), among other areas.
 
 # Workflow
+
+# Highlights
 **Deep Learning Model**: Developed a transformer-based deep learning model using **PyTorch** for weather forecasting, focusing on time-series analysis. This model accurately predicts temperatures by analyzing humidity and other relevant features.
 
 **SQL Database Management**: Acquired extensive expertise in **SQL database management**. Responsibilities included designing, querying, and manipulating multiple datasets, with a focus on historical weather data.
@@ -15,5 +17,3 @@ This project offers a great initiation into Machine Learning Operations. It's a 
 **Docker and AWS Deployment**: Showcased skills in **Docker containerization** and efficient application management. Proficiently used AWS for scalable cloud deployment.
 
 **Automated Data Processing**: Implemented **automated data processing and scheduling** using Cron Jobs. Utilized Python scripts for data ingestion, model predictions, and monitoring on an AWS EC2 instance, enhancing operational efficiency.
-
-# Highlights
